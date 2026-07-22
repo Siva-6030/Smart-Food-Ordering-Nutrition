@@ -1,9 +1,18 @@
+process.on("uncaughtException", (err) => {
+  console.error("UNCAUGHT EXCEPTION:", err.message);
+  console.error(err.stack);
+  process.exit(1);
+});
+process.on("unhandledRejection", (err) => {
+  console.error("UNHANDLED REJECTION:", err);
+  process.exit(1);
+});
+
 import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import morgan from "morgan";
 import { connectDB } from "./config/db.js";
-
 import menuRoutes from "./routes/menuRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import aiRoutes from "./routes/aiRoutes.js";
@@ -12,7 +21,6 @@ import authRoutes from "./routes/authRoutes.js";
 import nutritionRoutes from "./routes/nutritionRoutes.js";
 
 const app = express();
-
 app.use(cors({ origin: process.env.CLIENT_URL || "http://localhost:5173" }));
 app.use(express.json());
 app.use(morgan("dev"));
@@ -23,10 +31,8 @@ app.use("/api/orders", orderRoutes);
 app.use("/api/ai", aiRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/nutrition", nutritionRoutes);
-
 app.get("/api/health", (req, res) => res.json({ status: "ok" }));
 
-// Central error handler
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(500).json({ error: err.message || "Server error" });
@@ -39,6 +45,7 @@ connectDB()
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
-    console.error("DB CONNECTION FAILED:", err);
+    console.error("Failed to start server:", err.message);
+    console.error(err.stack);
     process.exit(1);
   });
