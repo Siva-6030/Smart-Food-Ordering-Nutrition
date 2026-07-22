@@ -6,7 +6,8 @@ export async function connectDB() {
     console.log(`MongoDB connected: ${conn.connection.host}`);
   } catch (err) {
     console.error("MongoDB connection failed:", err.message);
-    process.exitCode = 1;
-    throw err; // let it propagate instead of exiting immediately
+    // Give stderr time to flush before killing the process
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    process.exit(1);
   }
 }
