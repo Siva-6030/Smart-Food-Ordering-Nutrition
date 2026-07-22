@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # NutriPlate — AI-Powered Smart Food Ordering & Nutrition Assistant
 
 A full-stack food ordering platform with an AI nutrition assistant grounded in your own menu data (RAG), health-goal-based recommendations, and a premium glassmorphism UI.
@@ -82,4 +82,4 @@ Optionally create `frontend/.env` with `VITE_API_URL=http://localhost:5000/api` 
 - Multi-language: `react-i18next` + translated strings, detect via `navigator.language`
 =======
 # Smart-Food-Ordering-Nutrition
->>>>>>> acf3a2c628197cafd08afd1aee300ae7e02c243b
+
